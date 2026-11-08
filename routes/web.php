@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\ProfileController;
@@ -16,9 +18,29 @@ Route::get('/', function () {
     ]);
 });
 
+// Route::get('/dashboard', function () {
+//    return Inertia::render('Dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+// Reemplazadas por el código de abajo
+
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    // Motor BCV en vivo (con caché de 1 hora)
+    $tasaBcv = Cache::remember('tasa_bcv_dashboard', 3600, function () {
+        try {
+            $resp = Http::timeout(3)->get('https://ve.dolarapi.com/v1/dolares/oficial');
+            if ($resp->successful()) {
+                return $resp->json('promedio');
+            }
+        } catch (\Exception $e) {}
+        return 42.50; // Tasa de contingencia
+    });
+
+    return Inertia::render('Dashboard', [
+        'tasaBcv' => (float)$tasaBcv
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 // Unificamos todas las rutas protegidas en un solo grupo limpio
 Route::middleware('auth')->group(function () {
