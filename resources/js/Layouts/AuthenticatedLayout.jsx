@@ -168,18 +168,23 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
                         </div>
 
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>
-                                Profile
+                        <div className="pt-2 pb-3 space-y-1">
+                            <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                Dashboard
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
-                            >
-                                Log Out
+                            
+                            {/* NUEVOS ENLACES MÓVILES */}
+                            <ResponsiveNavLink href="/empleados" active={window.location.pathname === '/empleados'}>
+                                Empleados
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('recibos.index')} active={route().current('recibos.index')}>
+                                Emitir Recibos
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('reportes.index')} active={route().current('reportes.index')}>
+                                Reportes
                             </ResponsiveNavLink>
                         </div>
+
                     </div>
                 </div>
             </nav>
