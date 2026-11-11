@@ -89,41 +89,58 @@ export default function Index({ auth, empleados, tasaBcv }) {
                         </div>
                     </div>
 
-                    {/* Tabla de Empleados */}
+                    {/* Tabla de Empleados con Desplazamiento Táctil Móvil */}
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trabajador</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cédula</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Salario USD</th>
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {empleados.map((emp) => (
-                                        <tr key={emp.id} className="hover:bg-gray-50 transition">
-                                            <td className="px-6 py-4 font-medium text-gray-800">{emp.nombre}</td>
-                                            <td className="px-6 py-4 font-mono text-gray-500">{emp.cedula}</td>
-                                            <td className="px-6 py-4 font-bold text-gray-700">${parseFloat(emp.salario_base_usd).toFixed(2)}</td>
-                                            <td className="px-6 py-4 text-center">
-                                                <button
-                                                    onClick={() => handleCalcular(emp)}
-                                                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition shadow"
-                                                >
-                                                    Calcular Quincena
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    {empleados.length === 0 && (
-                                        <tr><td colSpan="4" className="text-center py-6 text-gray-500">No hay empleados registrados.</td></tr>
-                                    )}
-                                </tbody>
-                            </table>
+                        <div className="p-4 sm:p-6 text-gray-900">
+                            
+                            {/* Indicador sutil para móviles */}
+                            <p className="text-xs text-gray-400 mb-2 sm:hidden flex items-center gap-1">
+                                👉 <span>Desliza hacia los lados para ver el botón de acción</span>
+                            </p>
+
+                            {/* CONTENEDOR CON DESPLAZAMIENTO HORIZONTAL HABILITADO */}
+                            <div className="overflow-x-auto -mx-4 sm:mx-0">
+                                <div className="inline-block min-w-full align-middle">
+                                    <table className="min-w-[620px] w-full divide-y divide-gray-200">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trabajador</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cédula</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Salario USD</th>
+                                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {empleados.map((emp) => (
+                                                <tr key={emp.id} className="hover:bg-gray-50 transition">
+                                                    <td className="px-6 py-4 font-medium text-gray-800 whitespace-nowrap">{emp.nombre}</td>
+                                                    <td className="px-6 py-4 font-mono text-gray-500 whitespace-nowrap">{emp.cedula}</td>
+                                                    <td className="px-6 py-4 font-bold text-gray-700 whitespace-nowrap">${parseFloat(emp.salario_base_usd).toFixed(2)}</td>
+                                                    <td className="px-6 py-4 text-center whitespace-nowrap">
+                                                        <button
+                                                            onClick={() => handleCalcular(emp)}
+                                                            className="bg-green-600 hover:bg-green-700 active:scale-95 text-white font-bold py-2.5 px-5 rounded-lg transition shadow-md"
+                                                        >
+                                                            Calcular Quincena
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {empleados.length === 0 && (
+                                                <tr>
+                                                    <td colSpan="4" className="text-center py-6 text-gray-500">
+                                                        No hay empleados registrados.
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
                 </div>
             </div>
 
