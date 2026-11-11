@@ -10,6 +10,14 @@ export default function Dashboard({ auth, tasaBcv }) {
     const [cesta, setCesta] = useState(40);
     const [tasaLocal, setTasaLocal] = useState(tasaBcv);
 
+    // Fecha de la consulta formateada para Venezuela
+    const fechaConsulta = new Date().toLocaleDateString('es-VE', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
     // Motor Matemático Reactivo (Quincenal)
     const salarioBs = (salario / 2) * tasaLocal;
     const cestaBs = (cesta / 2) * tasaLocal;
@@ -33,7 +41,14 @@ export default function Dashboard({ auth, tasaBcv }) {
                     {/* BANNER BCV EN VIVO */}
                     <div className="bg-gradient-to-r from-blue-900 to-blue-700 rounded-2xl shadow-xl p-6 mb-8 text-white flex flex-col md:flex-row justify-between items-center print:hidden">
                         <div>
-                            <p className="text-blue-200 text-sm font-semibold tracking-wider mb-1">🔴 OFICIAL BCV EN VIVO | Fuente: DOLARAPI</p>
+                            <div className="flex flex-wrap items-center gap-2 mb-2">
+                                <span className="bg-red-500/90 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                    ● BCV en Vivo
+                                </span>
+                                <span className="text-blue-200 text-xs font-semibold capitalize bg-white/10 px-2 py-0.5 rounded-md">
+                                    📅 {fechaConsulta}
+                                </span>
+                            </div>
                             <h2 className="text-xl font-medium">TASA DE CAMBIO OFICIAL DEL DÍA (USD / VED)</h2>
                             <div className="flex items-end gap-3 mt-2">
                                 <input 
@@ -52,6 +67,7 @@ export default function Dashboard({ auth, tasaBcv }) {
                             </button>
                         </div>
                     </div>
+
 
                     {/* DOS COLUMNAS: FORMULARIO Y RECIBO */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

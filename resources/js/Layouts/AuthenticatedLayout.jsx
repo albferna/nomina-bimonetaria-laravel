@@ -143,50 +143,42 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </div>
 
-                <div
-                    className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
-                    }
-                >
-                    <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
+                {/* Menú de Navegación Móvil (Responsive) */}
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                    {/* 1. Módulos Principales de Navegación */}
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href="/empleados" active={window.location.pathname === '/empleados'}>
+                            Empleados
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('recibos.index')} active={route().current('recibos.index')}>
+                            Emitir Recibos
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('reportes.index')} active={route().current('reportes.index')}>
+                            Reportes
                         </ResponsiveNavLink>
                     </div>
 
-                    <div className="border-t border-gray-200 pb-1 pt-4">
+                    {/* 2. Opciones de Usuario y Cerrar Sesión */}
+                    <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
+                            <div className="font-medium text-base text-gray-800">{user.name}</div>
+                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
                         </div>
 
-                        <div className="pt-2 pb-3 space-y-1">
-                            <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                Dashboard
+                        <div className="mt-3 space-y-1">
+                            <ResponsiveNavLink href={route('profile.edit')}>
+                                Perfil
                             </ResponsiveNavLink>
-                            
-                            {/* NUEVOS ENLACES MÓVILES */}
-                            <ResponsiveNavLink href="/empleados" active={window.location.pathname === '/empleados'}>
-                                Empleados
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink href={route('recibos.index')} active={route().current('recibos.index')}>
-                                Emitir Recibos
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink href={route('reportes.index')} active={route().current('reportes.index')}>
-                                Reportes
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                                Cerrar Sesión (Salir)
                             </ResponsiveNavLink>
                         </div>
-
                     </div>
                 </div>
+
             </nav>
 
             {header && (
